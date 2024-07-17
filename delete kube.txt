@@ -1,0 +1,23 @@
+kubectl delete deployment reactweather-deployment
+kubectl delete service reactweather-service
+kubectl delete service server-service 
+kubectl delete deployment server-deployment
+kubectl delete deployment mongo
+kubectl delete service mongo
+
+kubectl apply -f .
+kubectl get all
+kubectl delete all --all
+
+docker login
+docker build -t your-docker-hub-username/image-name:tag .
+docker push your-docker-hub-username/image-name:tag
+
+
+kubectl exec -it reactweather-deployment-954d985b7-cp27t -n default -- /bin/sh 
+
+db.am319.find({}, { "payload": 1, "_id": 0 }).sort({ time: -1 }).limit(1)
+
+
+
+server v4 and client v10 latest

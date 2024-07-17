@@ -1,0 +1,40 @@
+stages:
+  - test
+  - build_image
+  # - deploy
+
+run_test:
+  stage: test
+  image: node:18.15.0
+  before_script:
+    - cd server
+    - npm install  # Install dependencies
+  script:
+    - npm run test2  # Run the test script
+
+build_image:
+  stage: build_image
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  variables:
+    image_name: klo123645/cicdtest
+    image_tag: v1
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - cd server
+    - docker login -u klo123645 -p Klo123645
+    # - docker login -u $docker_user -p $docker_pass 
+  script:
+    - docker build -t $image_name:$image_tag .
+    - docker push $image_name:$image_tag
+
+# deploy:
+#   stage: deploy
+#   before_script:
+#     - chmod 400 $SSH_KEY
+#   script:
+#     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY root@161.35.223.117 "
+#         docker login -u $REGISTRY_USER -p $REGISTRY_PASS &&
+#         docker ps -aq | xargs docker stop | xargs docker rm &&
+#         docker run -d -p 5000:5000 $IMAGE_NAME:$IMAGE_TAG"

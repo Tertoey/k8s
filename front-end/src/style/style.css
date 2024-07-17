@@ -1,0 +1,11 @@
+.homeee{
+  display: grid;
+  grid-template-rows: 10% 30% 60%;
+  justify-content: center;
+  height: 100vh;
+  }
+
+body{
+  background-color: lightblue;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}

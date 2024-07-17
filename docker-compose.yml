@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongoDB:/data/db
+    restart: always
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: klo123645
+    #   MONGO_INITDB_ROOT_PASSWORD: Klo123645
+    #   MONGO_INITDB_DATABASE: myDb
+
+  api:
+    container_name: api
+    build: ./server
+    ports:
+      - 8080:8080
+    # volumes:
+    #   - ./data/backend:/app
+    #   - /app/node_modules
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/myDb
+    depends_on:
+      - mongo
+
+  frontend:
+    container_name: react
+    build: ./front-end
+    ports:
+      - 3000:3000
+    # volumes:
+    #   - ./data/frontend:/app
+    #   - /app/node_modules
+    depends_on:
+      - api
+
+  nginx:
+    image: nginx
+    depends_on:
+      - api
+      - frontend
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/nginx.conf
+      
+    environment:
+      - NGINX_HOST=foobar.com
+      - NGINX_PORT=80
+

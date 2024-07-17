@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reactweather-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: reactweather
+  template:
+    metadata:
+      labels:
+        app: reactweather
+    spec:  # The 'spec' block should be nested under 'template'.
+      containers:
+        - name: reactweather
+          ports: 
+          - containerPort: 3000
+          image: klo123645/weatherclient:v15
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reactweather-service
+spec:
+  type: ClusterIP
+  selector:
+    app: reactweather
+  ports:
+    - port: 80
+      targetPort: 3000
