@@ -14,7 +14,7 @@ spec:
     spec: # The 'spec' block should be nested under 'template'.
       containers:
         - name: reactweather
-          image: klo123645/weatherclient:v18
+          image: klo123645/weatherclient:v19
           resources:
             limits:
               memory: "128Mi"

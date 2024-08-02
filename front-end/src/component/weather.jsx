@@ -60,6 +60,7 @@ function Weather() {
               <p>Country: {weatherData.result?.sys.country}</p>
               <p>City: {weatherData.result?.name}</p>
               <p>Temperature: {weatherData.result?.main.temp}</p>
+              <p>Humidity: {weatherData.result?.main.humidity}</p>
               <p>Wind speed: {weatherData.result?.wind.speed}</p>
             </>
           )}
